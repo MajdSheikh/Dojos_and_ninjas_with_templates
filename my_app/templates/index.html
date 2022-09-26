@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .forms {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .border {
+            border-top: 2px solid black;
+            margin: 0 auto;
+            margin-top: 30px;
+            width: 80%;
+        }
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="forms">
+        <form action="/add_dojo" method="POST">
+            <h1>Add a Dojo</h1>
+            {% csrf_token%}
+            <div>
+            <label>Name</label>
+            <input type="text" name="name">
+            </div><br>
+            <div>
+            <label>City</label>
+            <input type="text" name="city">
+            </div><br>
+            <div>
+            <label>State</label>
+            <input type="text" name="state">
+            </div><br>
+            <div>
+            <input type="submit" value="Add">
+            </div>
+        </form>
+
+        <form action="/add_ninja" method="POST">
+            <h1>Add a Ninja</h1>
+            {% csrf_token%}
+            <div>
+            <label>First Name</label>
+            <input type="text" name="first_name">
+            </div><br>
+            <div>
+            <label>Last Name</label>
+            <input type="text" name="last_name">
+            </div><br>
+            <div>
+                <label>Dojo</label>
+            <select name="dojo_id">
+                {% for dojo in dojos %}
+                <option value="{{dojo.id}}">{{dojo.name}}</option>
+                {% endfor %}
+            </select>
+            </div><br>
+            <div>
+            <input type="submit" value="Add">
+            </div>
+        </form>
+    </div>
+    <div class="border"></div>
+    <div class="footer">
+    <h1>All the Dojos</h1>
+    <ul>
+        {% for dojo in dojos %}
+        <li>Ninjas at the {{ dojo.name }} Dojo </li>
+        <ul>
+            {% for ninja in dojo.ninjas.all %}
+            <li>{{ ninja.first_name }} {{ ninja.last_name }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
